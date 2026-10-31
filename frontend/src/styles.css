@@ -1,0 +1,59 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: #0f172a; background: #f8fafc; }
+button { font: inherit; cursor: pointer; border: 1px solid #cbd5e1; background: #fff; border-radius: 6px; padding: 6px 12px; }
+button:hover:not(:disabled) { background: #f1f5f9; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+button.primary { background: #2563eb; border-color: #2563eb; color: #fff; }
+button.primary:hover:not(:disabled) { background: #1d4ed8; }
+
+/* ---- layout: chat sidebar + (canvas over step panel) ---- */
+.app { display: grid; grid-template-columns: 360px 1fr; height: 100%; }
+aside { border-right: 1px solid #e2e8f0; background: #fff; min-height: 0; }
+main { display: grid; grid-template-rows: 1fr auto; min-width: 0; min-height: 0; }
+.canvas { position: relative; min-height: 0; }
+
+/* ---- chat ---- */
+.chat { display: flex; flex-direction: column; height: 100%; padding: 12px; }
+.chat h2 { margin: 0 0 8px; font-size: 16px; }
+.messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 4px; }
+.msg { padding: 8px 10px; border-radius: 8px; font-size: 14px; white-space: pre-wrap; max-width: 95%; }
+.msg.user { background: #2563eb; color: #fff; align-self: flex-end; }
+.msg.system { background: #f1f5f9; align-self: flex-start; }
+.msg.system.error { background: #fee2e2; color: #991b1b; }
+.examples { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.examples button { font-size: 12px; padding: 3px 8px; border-radius: 999px; }
+.chat-form { display: flex; gap: 6px; }
+.chat-form input { flex: 1; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font: inherit; }
+
+/* ---- step panel ---- */
+.steps { border-top: 1px solid #e2e8f0; background: #fff; padding: 10px 14px; max-height: 40vh; overflow-y: auto; }
+.steps-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.counter { font-variant-numeric: tabular-nums; font-weight: 600; }
+.stale { margin-top: 8px; background: #fef3c7; color: #92400e; padding: 6px 10px; border-radius: 6px; font-size: 13px; }
+.current-step { margin-top: 8px; padding: 8px 10px; background: #fff7ed; border-left: 4px solid #f97316; border-radius: 4px; }
+.current-step.failed { background: #fee2e2; border-left-color: #dc2626; }
+.hint { margin-top: 8px; color: #64748b; font-size: 14px; }
+.step-list { margin: 8px 0 0; padding-left: 20px; font-size: 13px; }
+.step-list button { border: none; background: none; padding: 2px 4px; text-align: left; }
+.step-list button.active { background: #ffedd5; font-weight: 600; }
+
+/* ---- canvas nodes ---- */
+.react-flow__node-default { border-radius: 8px; border: 1.5px solid #64748b; padding: 10px 14px; font-weight: 600; background: #fff; width: auto; min-width: 110px; }
+.react-flow__node.node-in-trace { border-color: #2563eb; background: #eff6ff; }
+.react-flow__node.node-active { border-color: #f97316; background: #ffedd5; box-shadow: 0 0 0 4px rgba(249, 115, 22, .3); }
+
+/* ---- trace edge labels ---- */
+.trace-label { position: absolute; pointer-events: none; font-size: 11px; background: #fff; border: 1px solid #2563eb; color: #1e3a8a; padding: 1px 6px; border-radius: 999px; white-space: nowrap; }
+.trace-label.current { border-color: #f97316; color: #9a3412; font-weight: 600; }
+.trace-label.future { opacity: .5; }
+.trace-label.failed { border-color: #dc2626; color: #991b1b; }
+
+/* ---- legend ---- */
+.legend { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,.95); border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; font-size: 12px; display: grid; gap: 4px; z-index: 5; }
+.swatch { display: inline-block; width: 22px; height: 0; border-top: 3px solid; vertical-align: middle; margin-right: 6px; }
+.swatch.arch { border-color: #94a3b8; }
+.swatch.trace { border-color: #2563eb; }
+.swatch.future { border-color: #2563eb; border-top-style: dashed; opacity: .6; }
+.swatch.current { border-color: #f97316; border-top-width: 5px; }
+.swatch.failed { border-color: #dc2626; }
